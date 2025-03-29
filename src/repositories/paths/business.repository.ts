@@ -1,56 +1,58 @@
-import { UserInterface } from "../../interfaces";
+import { BusinessInterface } from "../../interfaces";
 import { BaseRepository } from "../../interfaces";
-import { UserModel } from "../../models";
+import { BusinessModel } from "../../models";
 import logger from "../../config/Logger";
 
-export class UserRepository implements BaseRepository<UserInterface> {
+export class BusinessRepository implements BaseRepository<BusinessInterface> {
     private handleError(operation: string, error: unknown): never {
         logger.error(`Error ${operation}`, error);
         throw new Error(`Error ${operation}`);
     }
-    public async findById(id: string): Promise<UserInterface | null> {
+    public async findById(id: string): Promise<BusinessInterface | null> {
         try {
-            return await UserModel.findById(id);
+            return await BusinessModel.findById(id);
         } catch (error) {
-            this.handleError("fetching user by ID", error);
+            this.handleError("fetching business by ID", error);
         }
     }
 
-    public async findAll(): Promise<UserInterface[]> {
+    public async findAll(): Promise<BusinessInterface[]> {
         try {
-            return await UserModel.find();
+            return await BusinessModel.find();
         } catch (error) {
-            this.handleError("fetching all users", error);
+            this.handleError("fetching all businesss", error);
         }
     }
 
-    public async create(userData: UserInterface): Promise<UserInterface> {
+    public async create(
+        businessData: BusinessInterface
+    ): Promise<BusinessInterface> {
         try {
-            return await UserModel.create(userData);
+            return await BusinessModel.create(businessData);
         } catch (error) {
-            this.handleError("creating user", error);
+            this.handleError("creating business", error);
         }
     }
 
     public async update(
         id: string,
-        userData: Partial<UserInterface>
-    ): Promise<UserInterface | null> {
+        businessData: Partial<BusinessInterface>
+    ): Promise<BusinessInterface | null> {
         try {
-            return await UserModel.findByIdAndUpdate(id, userData, {
+            return await BusinessModel.findByIdAndUpdate(id, businessData, {
                 new: true,
             });
         } catch (error) {
-            this.handleError("updating user", error);
+            this.handleError("updating business", error);
         }
     }
 
     public async delete(id: string): Promise<boolean> {
         try {
-            const result = await UserModel.findByIdAndDelete(id);
+            const result = await BusinessModel.findByIdAndDelete(id);
             return result ? true : false;
         } catch (error) {
-            this.handleError("deleting user", error);
+            this.handleError("deleting business", error);
         }
     }
 }

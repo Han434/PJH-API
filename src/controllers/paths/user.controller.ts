@@ -59,8 +59,8 @@ export class UserController {
 
     public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { name, email } = req.body;
-            if (!name || !email) {
+            const { name, userName, password } = req.body;
+            if (!name || !userName || !password) {
                 return this.handleError(
                     res,
                     null,

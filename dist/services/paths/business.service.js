@@ -12,61 +12,61 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BusinessRepository = void 0;
-const models_1 = require("../../models");
+exports.BusinessService = void 0;
 const Logger_1 = __importDefault(require("../../config/Logger"));
-class BusinessRepository {
-    handleError(operation, error) {
-        Logger_1.default.error(`Error ${operation}`, error);
-        throw new Error(`Error ${operation}`);
+class BusinessService {
+    constructor(businessRepository) {
+        this.businessRepository = businessRepository;
     }
-    findById(id) {
+    handleError(operation, error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        Logger_1.default.error(`Error ${operation}: ${errorMessage}`);
+        throw new Error(`Error ${operation}: ${errorMessage}`);
+    }
+    getBusinesses() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield models_1.BusinessModel.findById(id);
+                return yield this.businessRepository.findAll();
+            }
+            catch (error) {
+                this.handleError("fetching businesss", error);
+            }
+        });
+    }
+    getBusiness(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield this.businessRepository.findById(id);
             }
             catch (error) {
                 this.handleError("fetching business by ID", error);
             }
         });
     }
-    findAll() {
+    createBusiness(businessData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield models_1.BusinessModel.find();
-            }
-            catch (error) {
-                this.handleError("fetching all businesss", error);
-            }
-        });
-    }
-    create(businessData) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield models_1.BusinessModel.create(businessData);
+                return yield this.businessRepository.create(businessData);
             }
             catch (error) {
                 this.handleError("creating business", error);
             }
         });
     }
-    update(id, businessData) {
+    updateBusiness(id, businessData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield models_1.BusinessModel.findByIdAndUpdate(id, businessData, {
-                    new: true,
-                });
+                return yield this.businessRepository.update(id, businessData);
             }
             catch (error) {
                 this.handleError("updating business", error);
             }
         });
     }
-    delete(id) {
+    deleteBusiness(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield models_1.BusinessModel.findByIdAndDelete(id);
-                return result ? true : false;
+                return yield this.businessRepository.delete(id);
             }
             catch (error) {
                 this.handleError("deleting business", error);
@@ -74,4 +74,4 @@ class BusinessRepository {
         });
     }
 }
-exports.BusinessRepository = BusinessRepository;
+exports.BusinessService = BusinessService;
