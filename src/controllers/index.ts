@@ -1,4 +1,5 @@
 import { UserController } from "./paths/user.controller";
 import { BusinessController } from "./paths/business.controller";
+import { LocationController } from "./paths/location.controller";
 
-export { UserController, BusinessController };
+export { UserController, BusinessController, LocationController };
