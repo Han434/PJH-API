@@ -15,4 +15,14 @@ export const UserSchema: Schema<UserDocument> = new mongoose.Schema({
         type: String,
         required: true,
     },
+    status: {
+        type: String,
+        enum: ["active", "inactive"],
+        default: "active",
+    },
+    businessID: {
+        type: Schema.Types.String,
+        ref: "Business",
+        required: true,
+    },
 });
