@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LocationController = void 0;
 const Logger_1 = __importDefault(require("../../config/Logger"));
 class LocationController {
-    constructor(LocationService) {
+    constructor(locationService) {
         this.getLocations = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const locations = yield this.locationService.getLocations();
@@ -30,22 +30,23 @@ class LocationController {
                 const id = req.params.id;
                 const location = yield this.locationService.getLocation(id);
                 if (!location) {
-                    return this.handleError(res, null, "User not found", "USER_NOT_FOUND", 404);
+                    return this.handleError(res, null, "Location not found", "LOCATION_NOT_FOUND", 404);
                 }
                 res.status(200).json({ success: true, data: location });
             }
             catch (error) {
-                this.handleError(res, error, "Error fetching user by ID");
+                this.handleError(res, error, "Error fetching location by ID");
             }
         });
         this.createLocation = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log("Creating location with data:", req.body);
             try {
                 const { locationName, business, user } = req.body;
                 if (!locationName || !business || !user) {
                     return this.handleError(res, null, "Missing required fields", "BAD_REQUEST", 400);
                 }
-                const locationDate = req.body;
-                const newLocation = yield this.locationService.createLocation(locationDate);
+                const locationData = req.body;
+                const newLocation = yield this.locationService.createLocation(locationData);
                 res.status(201).json({
                     success: true,
                     data: newLocation,
@@ -74,7 +75,7 @@ class LocationController {
                 });
             }
             catch (error) {
-                this.handleError(res, error, "Error updating user");
+                this.handleError(res, error, "Error updating location");
             }
         });
         this.deleteLocation = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -90,10 +91,10 @@ class LocationController {
                 });
             }
             catch (error) {
-                this.handleError(res, error, "Error deleting Location");
+                this.handleError(res, error, "Error deleting location");
             }
         });
-        this.locationService = LocationService;
+        this.locationService = locationService;
     }
     handleError(res, error, message, code = "INTERNAL_SERVER_ERROR", status = 500) {
         const errorMessage = error instanceof Error ? error.message : String(error);

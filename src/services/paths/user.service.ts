@@ -1,5 +1,5 @@
-import { BaseRepository } from "../../interfaces/";
-import { UserInterface } from "../../interfaces/";
+import { BaseRepository } from "../../types";
+import { UserInterface } from "../../types";
 import logger from "../../config/Logger";
 
 export class UserService {

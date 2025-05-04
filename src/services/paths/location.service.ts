@@ -1,5 +1,5 @@
-import { BaseRepository } from "../../interfaces/";
-import { LocationInterface } from "../../interfaces/";
+import { BaseRepository } from "../../types";
+import { LocationInterface } from "../../types";
 import logger from "../../config/Logger";
 
 export class LocationService {

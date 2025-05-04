@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { BusinessService } from "../../services/";
 import logger from "../../config/Logger";
-import { BusinessInterface } from "../../interfaces/";
+import { BusinessInterface } from "../../types";
 
 export class BusinessController {
     private businessService: BusinessService;

@@ -1,5 +1,5 @@
-import { BaseRepository } from "../../interfaces/";
-import { BusinessInterface } from "../../interfaces/";
+import { BaseRepository } from "../../types";
+import { BusinessInterface } from "../../types";
 import logger from "../../config/Logger";
 
 export class BusinessService {

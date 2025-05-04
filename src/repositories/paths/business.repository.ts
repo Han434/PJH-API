@@ -1,9 +1,12 @@
-import { BusinessInterface } from "../../interfaces";
-import { BaseRepository } from "../../interfaces";
+import { BusinessInterface } from "../../types";
+import { BaseRepository } from "../../types";
 import { BusinessModel } from "../../models";
 import logger from "../../config/Logger";
 
 export class BusinessRepository implements BaseRepository<BusinessInterface> {
+    findByUserName(userName: string): Promise<BusinessInterface | null> {
+        throw new Error("Method not implemented.");
+    }
     private handleError(operation: string, error: unknown): never {
         logger.error(`Error ${operation}`, error);
         throw new Error(`Error ${operation}`);

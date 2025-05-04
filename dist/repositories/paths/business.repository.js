@@ -16,6 +16,9 @@ exports.BusinessRepository = void 0;
 const models_1 = require("../../models");
 const Logger_1 = __importDefault(require("../../config/Logger"));
 class BusinessRepository {
+    findByUserName(userName) {
+        throw new Error("Method not implemented.");
+    }
     handleError(operation, error) {
         Logger_1.default.error(`Error ${operation}`, error);
         throw new Error(`Error ${operation}`);

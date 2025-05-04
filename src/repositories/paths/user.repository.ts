@@ -1,5 +1,5 @@
-import { UserInterface } from "../../interfaces";
-import { BaseRepository } from "../../interfaces/paths/base.repository";
+import { UserInterface } from "../../types";
+import { BaseRepository } from "../../types/paths/base.repository";
 import { UserModel } from "../../models";
 import logger from "../../config/Logger";
 
@@ -8,6 +8,17 @@ export class UserRepository implements BaseRepository<UserInterface> {
         logger.error(`Error ${operation}`, error);
         throw new Error(`Error ${operation}`);
     }
+
+    public async findByUserName(
+        userName: string
+    ): Promise<UserInterface | null> {
+        try {
+            return await UserModel.findOne({ userName });
+        } catch (error) {
+            this.handleError("fetching user by User Name", error);
+        }
+    }
+
     public async findById(id: string): Promise<UserInterface | null> {
         try {
             return await UserModel.findById(id);

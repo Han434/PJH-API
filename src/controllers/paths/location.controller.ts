@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { LocationService } from "../../services/";
 import logger from "../../config/Logger";
-import { LocationInterface } from "../../interfaces/";
+import { LocationInterface } from "../../types";
 
 export class LocationController {
     private locationService: LocationService;
 
-    constructor(LocationService: LocationService) {
-        this.locationService = LocationService;
+    constructor(locationService: LocationService) {
+        this.locationService = locationService;
     }
 
     private handleError(
@@ -49,15 +49,15 @@ export class LocationController {
                 return this.handleError(
                     res,
                     null,
-                    "User not found",
-                    "USER_NOT_FOUND",
+                    "Location not found",
+                    "LOCATION_NOT_FOUND",
                     404
                 );
             }
 
             res.status(200).json({ success: true, data: location });
         } catch (error) {
-            this.handleError(res, error, "Error fetching user by ID");
+            this.handleError(res, error, "Error fetching location by ID");
         }
     };
 
@@ -65,6 +65,7 @@ export class LocationController {
         req: Request,
         res: Response
     ): Promise<void> => {
+        console.log("Creating location with data:", req.body);
         try {
             const { locationName, business, user } = req.body;
             if (!locationName || !business || !user) {
@@ -77,9 +78,9 @@ export class LocationController {
                 );
             }
 
-            const locationDate: LocationInterface = req.body;
+            const locationData: LocationInterface = req.body;
             const newLocation: LocationInterface =
-                await this.locationService.createLocation(locationDate);
+                await this.locationService.createLocation(locationData);
 
             res.status(201).json({
                 success: true,
@@ -128,7 +129,7 @@ export class LocationController {
                 message: "Location successfully updated",
             });
         } catch (error) {
-            this.handleError(res, error, "Error updating user");
+            this.handleError(res, error, "Error updating location");
         }
     };
 
@@ -155,7 +156,7 @@ export class LocationController {
                 message: "Location successfully deleted",
             });
         } catch (error) {
-            this.handleError(res, error, "Error deleting Location");
+            this.handleError(res, error, "Error deleting location");
         }
     };
 }

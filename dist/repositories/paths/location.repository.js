@@ -16,6 +16,9 @@ exports.LocationRepository = void 0;
 const models_1 = require("../../models");
 const Logger_1 = __importDefault(require("../../config/Logger"));
 class LocationRepository {
+    findByUserName(userName) {
+        throw new Error("Method not implemented.");
+    }
     handleError(operation, error) {
         Logger_1.default.error(`Error ${operation}`, error);
         throw new Error(`Error ${operation}`);
@@ -40,10 +43,10 @@ class LocationRepository {
             }
         });
     }
-    create(locationDate) {
+    create(locationData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield models_1.LocationModel.create(locationDate);
+                return yield models_1.LocationModel.create(locationData);
             }
             catch (error) {
                 this.handleError("creating location", error);

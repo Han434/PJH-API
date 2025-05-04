@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 import databaseConstants from "../utilities/database.constant";
 import { UserSchema } from "./paths/user.model";
-import { UserDocument } from "../interfaces/";
+import { UserDocument } from "../types";
 import { BusinessSchema } from "./paths/business.models";
-import { BusinessDocument } from "../interfaces/";
+import { BusinessDocument } from "../types";
 import { LocationSchema } from "./paths/location.models";
-import { LocationDocument } from "../interfaces/";
+import { LocationDocument } from "../types";
 
 export const UserModel = mongoose.model<UserDocument>(
     databaseConstants.USER.DB_NAME,

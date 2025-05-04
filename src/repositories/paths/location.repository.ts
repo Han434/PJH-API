@@ -1,9 +1,12 @@
-import { LocationInterface } from "../../interfaces/";
-import { BaseRepository } from "../../interfaces";
+import { LocationInterface } from "../../types";
+import { BaseRepository } from "../../types";
 import { LocationModel } from "../../models";
 import logger from "../../config/Logger";
 
 export class LocationRepository implements BaseRepository<LocationInterface> {
+    findByUserName(userName: string): Promise<LocationInterface | null> {
+        throw new Error("Method not implemented.");
+    }
     private handleError(operation: string, error: unknown): never {
         logger.error(`Error ${operation}`, error);
         throw new Error(`Error ${operation}`);
@@ -25,10 +28,10 @@ export class LocationRepository implements BaseRepository<LocationInterface> {
     }
 
     public async create(
-        locationDate: LocationInterface
+        locationData: LocationInterface
     ): Promise<LocationInterface> {
         try {
-            return await LocationModel.create(locationDate);
+            return await LocationModel.create(locationData);
         } catch (error) {
             this.handleError("creating location", error);
         }

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const Logger_1 = __importDefault(require("../../config/Logger"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 class UserController {
     constructor(userService) {
         this.getUsers = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -39,12 +40,16 @@ class UserController {
             }
         });
         this.createUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log("Creating user with data:", req.body);
             try {
-                const { name, userName, password } = req.body;
-                if (!name || !userName || !password) {
+                const { name, userName, password, status, businessID } = req.body;
+                if (!name || !userName || !password || !status || !businessID) {
                     return this.handleError(res, null, "Missing required fields", "BAD_REQUEST", 400);
                 }
-                const userData = req.body;
+                const saltRounds = 10;
+                const hashedPassword = yield bcryptjs_1.default.hash(password, saltRounds);
+                // Create the user data object with hashed password
+                const userData = Object.assign(Object.assign({}, req.body), { password: hashedPassword });
                 const newUser = yield this.userService.createUser(userData);
                 res.status(201).json({
                     success: true,

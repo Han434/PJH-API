@@ -20,6 +20,16 @@ class UserRepository {
         Logger_1.default.error(`Error ${operation}`, error);
         throw new Error(`Error ${operation}`);
     }
+    findByUserName(userName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield models_1.UserModel.findOne({ userName });
+            }
+            catch (error) {
+                this.handleError("fetching user by User Name", error);
+            }
+        });
+    }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

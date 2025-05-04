@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { UserService } from "../../services/";
 import logger from "../../config/Logger";
-import { UserInterface } from "../../interfaces/";
+import { UserInterface } from "../../types";
+import bcrypt from 'bcryptjs';
 
 export class UserController {
     private userService: UserService;
@@ -58,9 +59,10 @@ export class UserController {
     };
 
     public createUser = async (req: Request, res: Response): Promise<void> => {
+        console.log("Creating user with data:", req.body);
         try {
-            const { name, userName, password } = req.body;
-            if (!name || !userName || !password) {
+            const { name, userName, password, status, businessID } = req.body;
+            if (!name || !userName || !password || !status || !businessID) {
                 return this.handleError(
                     res,
                     null,
@@ -70,7 +72,14 @@ export class UserController {
                 );
             }
 
-            const userData: UserInterface = req.body;
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+            // Create the user data object with hashed password
+            const userData: UserInterface = {
+                ...req.body,
+                password: hashedPassword,
+            };
             const newUser: UserInterface =
                 await this.userService.createUser(userData);
 

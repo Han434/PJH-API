@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { LocationDocument } from "../../interfaces/paths/location";
+import { LocationDocument } from "../../types/paths/location";
 
 export const LocationSchema: Schema<LocationDocument> = new Schema({
     locationName: {
@@ -12,7 +12,7 @@ export const LocationSchema: Schema<LocationDocument> = new Schema({
         required: true,
     },
     user: {
-        type: [Schema.Types.ObjectId],
+        type: Schema.Types.ObjectId,
         ref: "User",
         required: true,
     },
